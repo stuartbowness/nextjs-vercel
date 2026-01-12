@@ -44,7 +44,7 @@ The agent's knowledge comes from [`lib/knowledge.ts`](./lib/knowledge.ts) — ed
 
 ### 1. Clone and install
 
-```bash
+```
 git clone https://github.com/layercodedev/nextjs-vercel
 cd nextjs-vercel
 npm install
