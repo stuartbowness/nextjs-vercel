@@ -1,168 +1,159 @@
-# Layercode — Add Voice AI to Your Next.js App
+# Layercode Voice AI Starter
 
-A Vercel-native reference implementation for integrating voice AI into any Next.js application using Layercode.
+Add voice AI to your Next.js app in minutes.
 
-## What This App Showcases
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/layercodedev/nextjs-vercel)
 
-- **Microphone selection** via the `MicrophoneSelect` component from `@layercode/react-sdk`
-- **Speaking indicators** that react to `userSpeaking` / `agentSpeaking` states
-- **Streaming transcripts** rendered live with partial user-turn updates
-- **Server-side message history** stored in Vercel KV (with automatic in-memory fallback)
-- **Static knowledge grounding** via `lib/knowledge.ts`
-- **Centralized AI logic** via `lib/ai.ts`
+<!-- TODO: Add screenshot or demo GIF here -->
 
-## What You'll Learn
+## Features
 
-This repository teaches five core patterns for adding voice AI to Next.js:
+- **Voice conversations** — Real-time speech-to-text and text-to-speech
+- **Microphone selection** — Built-in device picker via `@layercode/react-sdk`
+- **Speaking indicators** — Visual feedback when user or agent is speaking
+- **Streaming transcripts** — Live display with partial updates
+- **Message history** — Persisted via Vercel KV (in-memory fallback for dev)
+- **Knowledge grounding** — AI responses based on your content
+- **Serverless architecture** — Runs entirely on Vercel Edge/Functions
 
-1. **Voice session startup** — How the browser initiates a connection via `/api/authorize`
-2. **Serverless event handling** — How voice events flow through `/api/agent` on Vercel
-3. **AI logic boundaries** — Where AI calls happen and how to extend them
-4. **Knowledge grounding** — How static content grounds AI responses
-5. **Extension points** — Where to add persistence, analytics, moderation, and more
+## Tech Stack
+
+- [Next.js 15](https://nextjs.org) — App Router, React Server Components
+- [Layercode](https://layercode.com) — Voice AI infrastructure
+- [Vercel AI SDK](https://sdk.vercel.ai) — AI model integration
+- [Vercel KV](https://vercel.com/storage/kv) — Redis-based session storage
+- [OpenAI](https://openai.com) — GPT-4o-mini for responses
+
+## Demo
+
+Out of the box, this runs a **Layercode support agent**. Try asking:
+
+- "What is Layercode?"
+- "How do I get started?"
+- "What platforms do you support?"
+
+The agent's knowledge comes from `lib/knowledge.ts` — edit this file to make it your own.
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- [Layercode account](https://layercode.com) — for API key and agent setup
+- [OpenAI API key](https://platform.openai.com) — for text generation
+
+### 1. Clone and install
+
+```bash
+git clone https://github.com/layercodedev/nextjs-vercel
+cd nextjs-vercel
+npm install
+```
+
+### 2. Configure environment
+
+```bash
+cp .env.example .env.local
+```
+
+Fill in your keys:
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `NEXT_PUBLIC_LAYERCODE_AGENT_ID` | Yes | Agent ID from Layercode dashboard |
+| `LAYERCODE_API_KEY` | Yes | API key from Layercode dashboard |
+| `LAYERCODE_WEBHOOK_SECRET` | Yes | Webhook secret from Layercode dashboard |
+| `OPENAI_API_KEY` | Yes | OpenAI API key |
+| `KV_REST_API_URL` | No | Vercel KV URL (optional, for persistence) |
+| `KV_REST_API_TOKEN` | No | Vercel KV token (optional) |
+
+### 3. Run locally
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) and click **Connect** to start a voice session.
+
+> **Note:** For local development, webhooks won't reach your machine unless you use a tunnel like [ngrok](https://ngrok.com). Message history falls back to in-memory storage.
+
+## Deploy to Vercel
+
+1. Click the **Deploy** button above
+2. Add environment variables in project settings
+3. **Disable Vercel Authentication** for webhooks:
+   - Settings → Deployment Protection → Turn off Vercel Authentication
+4. Configure your Layercode agent's webhook URL to: `https://your-app.vercel.app/api/agent`
+
+![disable-vercel-auth](./disable-vercel-auth.png)
 
 ## Architecture
 
 ```
 Browser (microphone)
     ↓
-Layercode Web SDK (@layercode/react-sdk)
+@layercode/react-sdk
     ↓
-Next.js API Routes (Vercel)
-    ├── /api/authorize   → Start voice session
-    ├── /api/agent       → Receive voice events, generate responses
-    └── lib/ai.ts        → AI logic boundary
+Your Vercel App
+    ├── /api/authorize   → Get session token (keeps API key server-side)
+    ├── /api/agent       → Webhook endpoint for voice events
+    ├── lib/ai.ts        → AI completion logic
+    └── lib/knowledge.ts → Your content/knowledge base
 ```
 
-## Prerequisites
+### How voice events flow
 
-- Node.js 18+ and npm
-- A Layercode account with an agent configured (API key + webhook secret)
-- OpenAI API key for text generation
-- (Optional) Vercel KV for persistent message history in production
-
-## Quick Start
-
-### Option 1: Deploy to Vercel
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/layercodedev/nextjs-vercel)
-
-After deploying, add your environment variables in Vercel project settings.
-
-### Option 2: Run Locally
-
-```bash
-npm install
-cp .env.example .env.local
-# Fill in your API keys (see Environment Variables below)
-npm run dev
-```
-
-Open http://localhost:3000 and click **Connect** to start a voice session.
-
-## Environment Variables
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `NEXT_PUBLIC_LAYERCODE_AGENT_ID` | Yes | The agent to connect to from the browser (safe to expose) |
-| `LAYERCODE_API_KEY` | Yes | Used by `/api/authorize` to request websocket credentials |
-| `LAYERCODE_WEBHOOK_SECRET` | Yes | Used to verify webhook calls hitting `/api/agent` |
-| `OPENAI_API_KEY` | Yes | Required for the default `gpt-4o-mini` text generation |
-| `GOOGLE_GENERATIVE_AI_API_KEY` | No | Only needed if your agent/tools rely on it |
-| `KV_REST_API_URL`, `KV_REST_API_TOKEN` | No | Provided by Vercel KV. If omitted, falls back to in-memory storage |
-
-> **Tip:** Keep `.env.local` out of version control; Next.js loads it automatically in dev.
-
-## How It Works
-
-### Authorize Route (`/api/authorize`)
-
-Proxies the browser request to Layercode's `authorize_session` endpoint using your `LAYERCODE_API_KEY`. This keeps your API key server-side while allowing the browser to establish a voice connection.
-
-Customize this handler to add authentication checks or modify the request payload.
-
-### Agent Route (`/api/agent`)
-
-Receives all voice events from Layercode via webhook:
-- `session.start` — Initialize conversation state
-- `message` — Handle transcribed user speech, generate AI responses
-- `session.end` — Clean up, persist transcripts
-
-See the inline comments for extension points (analytics, moderation, summarization).
-
-### Message History Storage
-
-When `KV_*` environment variables are present, conversations are stored in Vercel KV with a 12-hour TTL. Without them, messages are stored in-memory (resets on server restart) — good enough for local testing.
-
-## Deploying to Vercel
-
-1. Add all environment variables in your Vercel project settings
-2. **Disable Vercel Authentication** so Layercode webhooks can reach `/api/agent`:
-   - Go to Settings → Deployment Protection
-   - Turn off **Vercel Authentication** and save
-3. Deploy via `vercel deploy` or Git push
-
-![disable-vercel-auth](./disable-vercel-auth.png)
-
-Monitor webhook deliveries in the Layercode dashboard to confirm everything is wired correctly.
+1. User clicks **Connect** → Browser requests session token from `/api/authorize`
+2. Browser connects to Layercode via WebSocket
+3. User speaks → Layercode transcribes → POST to `/api/agent`
+4. Your agent generates response → Layercode speaks it back
 
 ## Project Structure
 
 ```
 app/
+  page.tsx                — Voice UI
   api/
-    authorize/route.ts  — Session authorization (keeps API key server-side)
-    agent/route.ts      — Voice event handler (webhook endpoint)
-  page.tsx              — Voice UI with mic selection and indicators
+    authorize/route.ts    — Session authorization
+    agent/route.ts        — Voice event webhook
 lib/
-  ai.ts                 — Centralized AI logic boundary
-  knowledge.ts          — Static knowledge base
+  ai.ts                   — AI logic (extend for tools, streaming)
+  knowledge.ts            — Your knowledge base (edit this!)
 ```
 
-## The Demo: A Layercode Support Agent
+## Customizing
 
-Out of the box, this app runs a voice agent that answers questions about Layercode. Try asking:
+### Change the knowledge base
 
-- "What is Layercode?"
-- "How do I get started?"
-- "What platforms do you support?"
-- "How does billing work?"
-
-The agent's knowledge comes from `lib/knowledge.ts`, which contains FAQs, product info, and support details. This demonstrates how to ground AI responses in your own content.
-
-### Customizing the Knowledge Base
-
-To make this your own, edit `lib/knowledge.ts`:
+Edit `lib/knowledge.ts` to add your own FAQs, product info, and content:
 
 ```ts
 export function getKnowledgeBase(): KnowledgeBase {
   return {
     companyName: "Your Company",
-    faqs: [
-      { question: "What do you do?", answer: "..." },
-      // Add your own FAQs
-    ],
-    productInfo: "...",
-    supportInfo: "...",
+    faqs: [{ question: "...", answer: "..." }],
+    // ...
   };
 }
 ```
 
-The knowledge base is **static by design** — no vector DB or ingestion pipeline to configure. This lets you understand the entire system in one reading session.
+### Extend the AI logic
 
-For production, see the comments in `lib/knowledge.ts` for guidance on connecting a CMS, database, or vector search.
+Edit `lib/ai.ts` to add streaming, tool calling, or switch models. See inline comments for extension points.
 
 ## Next Steps
 
-Once you understand the patterns here, consider:
-
-- **Telephony** — Add phone number support via Layercode's telephony features
-- **RAG** — Replace static knowledge with vector search (Pinecone, Weaviate)
-- **Vercel AI SDK** — Use `useChat` hooks and streaming for richer client UX
-- **Production hardening** — Add rate limiting, error tracking, and monitoring
+- **Telephony** — Add phone support via Layercode
+- **RAG** — Connect vector search (Pinecone, Weaviate)
+- **Streaming** — Real-time token streaming for faster responses
+- **Tools** — Let the AI call functions and APIs
 
 ## Resources
 
-- [Layercode Documentation](https://docs.layercode.com)
+- [Layercode Docs](https://docs.layercode.com)
 - [Vercel AI SDK](https://sdk.vercel.ai)
-- [Next.js Documentation](https://nextjs.org/docs)
+- [Next.js Docs](https://nextjs.org/docs)
+
+## License
+
+MIT
