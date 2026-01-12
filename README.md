@@ -148,6 +148,14 @@ export function getKnowledgeBase(): KnowledgeBase {
 
 Edit [`lib/ai.ts`](./lib/ai.ts) to add streaming, tool calling, or switch models. See inline comments for extension points.
 
+### Add authentication
+
+Add auth checks in [`app/api/authorize/route.ts`](./app/api/authorize/route.ts) before issuing session tokens.
+
+### Change message storage
+
+Modify TTL or swap storage backends in [`app/api/agent/route.ts`](./app/api/agent/route.ts). Uses Vercel KV when configured, in-memory fallback otherwise.
+
 ## Resources
 
 - [Layercode Docs](https://docs.layercode.com)
