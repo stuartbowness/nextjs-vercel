@@ -88,11 +88,9 @@ Open [http://localhost:3000](http://localhost:3000) and click **Connect** to sta
 
 1. Click the **Deploy** button above
 2. Add environment variables in project settings
-3. **Disable Vercel Authentication** for webhooks:
-   - Settings → Deployment Protection → Turn off Vercel Authentication
-4. Configure your Layercode agent's webhook URL to: `https://your-app.vercel.app/api/agent`
+3. Configure your Layercode agent's webhook URL to: `https://your-app.vercel.app/api/agent`
 
-![disable-vercel-auth](./disable-vercel-auth.png)
+> **Troubleshooting:** If webhooks aren't reaching your app, check Settings → Deployment Protection and ensure Vercel Authentication isn't blocking external requests. Your webhook secret still secures the endpoint.
 
 ## Architecture
 
