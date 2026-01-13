@@ -34,6 +34,7 @@ import { streamText, UIMessage, convertToModelMessages, AssistantModelMessage } 
 import { streamResponse, verifySignature } from '@layercode/node-server-sdk';
 import { kv } from '@vercel/kv';
 import config from '@/layercode.config.json';
+import { getKnowledgeBase, formatKnowledgeForPrompt } from '@/lib/knowledge';
 
 type LayercodeMetadata = {
   conversation_id: string;
@@ -52,14 +53,17 @@ type WebhookRequest = {
   type: 'message' | 'session.start' | 'session.end' | 'session.update';
 };
 
-const SYSTEM_PROMPT = config.prompt;
+const knowledgeBase = formatKnowledgeForPrompt(getKnowledgeBase());
+const SYSTEM_PROMPT = `${config.prompt}\n\n${knowledgeBase}`;
 const WELCOME_MESSAGE = config.welcome_message;
 
-const apiKey = process.env.OPENAI_API_KEY;
-if (!apiKey) {
-  throw new Error('OPENAI_API_KEY environment variable is not set');
-}
-const openai = createOpenAI({ apiKey });
+const getOpenAIClient = () => {
+  const apiKey = process.env.OPENAI_API_KEY;
+  if (!apiKey) {
+    throw new Error('OPENAI_API_KEY environment variable is not set');
+  }
+  return createOpenAI({ apiKey });
+};
 
 const CONVERSATION_TTL_SECONDS = 60 * 60 * 12; // 12 hours
 const isKvConfigured = Boolean(process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN);
@@ -165,7 +169,7 @@ export const POST = async (request: Request) => {
         // EXTENSION POINT: Log user message for analytics or moderation review
 
         const { textStream } = streamText({
-          model: openai('gpt-4o-mini'),
+          model: getOpenAIClient()('gpt-4o-mini'),
           system: SYSTEM_PROMPT,
           messages: convertToModelMessages(conversationForModel),
           onFinish: async ({ response }) => {
