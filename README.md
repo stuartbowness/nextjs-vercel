@@ -104,8 +104,7 @@ Browser (microphone)
     ↓
 Your Vercel App
     ├── /api/authorize   → Get session token (keeps API key server-side)
-    ├── /api/agent       → Webhook endpoint for voice events
-    ├── lib/ai.ts        → AI completion logic
+    ├── /api/agent       → Webhook endpoint for voice events + AI logic
     └── lib/knowledge.ts → Your content/knowledge base
 ```
 
@@ -123,9 +122,8 @@ app/
   page.tsx                — Voice UI
   api/
     authorize/route.ts    — Session authorization
-    agent/route.ts        — Voice event webhook
+    agent/route.ts        — Voice event webhook + AI logic
 lib/
-  ai.ts                   — AI logic (extend for tools, streaming)
   knowledge.ts            — Your knowledge base (edit this!)
 ```
 
@@ -147,7 +145,7 @@ export function getKnowledgeBase(): KnowledgeBase {
 
 ### Extend the AI logic
 
-Edit [`lib/ai.ts`](./lib/ai.ts) to add streaming, tool calling, or switch models. See inline comments for extension points.
+Edit [`app/api/agent/route.ts`](./app/api/agent/route.ts) to add tool calling, switch models, or customize the system prompt. AI logic lives directly in the webhook handler.
 
 ### Add authentication
 
