@@ -1,6 +1,6 @@
-# Add Voice AI to Your Vercel/Next.js App with Layercode
+# Voice AI Infrastructure for Next.js
 
-Get started in minutes.
+Edge deployed infrastructure, voice activity detection, websocket handling, and full back-end control. One-click Vercel deploy.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/layercodedev/nextjs-vercel)
 
