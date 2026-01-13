@@ -1,10 +1,30 @@
-/**
- * Centralized AI module
- *
- * This module provides a clean boundary between voice/application logic and AI interactions.
- * All AI-related calls should flow through this module to ensure consistent configuration,
- * error handling, and future extensibility.
- */
+// lib/ai.ts
+//
+// Purpose
+// -------
+// Centralized AI module. Provides a clean boundary between voice/application
+// logic and AI model interactions.
+//
+// Responsibilities
+// ----------------
+// • Initialize and manage OpenAI provider instance.
+// • Expose a simple generateCompletion() function for text generation.
+// • Define typed request/response interfaces for AI interactions.
+// • Provide extension points for streaming, tools, and gateway routing.
+//
+// Extension Points
+// ----------------
+// • AI Gateway: Add custom baseURL to route through a gateway.
+// • Tool calling: Add tools parameter to generateText call.
+// • Streaming: Implement generateCompletionStream() using streamText.
+// • Model switching: Pass different model names via the request.
+//
+// Notes
+// -----
+// • Uses Vercel AI SDK ('ai' package) for model interactions.
+// • OpenAI provider is lazily initialized to avoid module load issues.
+// • All AI calls should flow through this module for consistency.
+//
 
 import { createOpenAI, OpenAIProvider } from '@ai-sdk/openai';
 import { generateText, CoreMessage } from 'ai';

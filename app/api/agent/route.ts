@@ -1,25 +1,32 @@
-/**
- * VOICE AGENT WEBHOOK ROUTE
- * ==========================
- * This route receives all voice session events from Layercode.
- * It is the primary handler for voice interactions after authorization.
- *
- * VOICE EVENT LIFECYCLE:
- * 1. session.start  - Voice session begins (user connected)
- * 2. message        - User speech transcribed and sent here for processing
- * 3. session.update - Session state changes (optional handling)
- * 4. session.end    - Voice session terminated (user disconnected)
- *
- * ENTRY POINT FOR VOICE EVENTS:
- * All transcribed user speech arrives via POST with type='message'.
- * The Layercode SDK handles speech-to-text; this route receives text.
- *
- * DEVELOPER EXTENSION POINTS:
- * - Persist transcripts: Save messages in session.end or after each message
- * - Trigger summarization: Call LLM to summarize in session.end handler
- * - Add analytics: Log latency, message count, session duration
- * - Add moderation: Filter user input before LLM, filter output before TTS
- */
+// app/api/agent/route.ts
+//
+// Purpose
+// -------
+// Voice event webhook. Receives all voice session events from Layercode and
+// generates AI responses that are streamed back as speech.
+//
+// Responsibilities
+// ----------------
+// • Verify webhook signatures for security.
+// • Handle session lifecycle events (start, end, update).
+// • Process transcribed user speech and generate AI responses.
+// • Stream responses back to Layercode for text-to-speech.
+// • Manage conversation history in Vercel KV (or in-memory fallback).
+//
+// Voice Event Lifecycle
+// ---------------------
+// 1. session.start  → Voice session begins, reset conversation state.
+// 2. message        → User speech transcribed, generate AI response.
+// 3. session.update → Session state changes (mute/unmute).
+// 4. session.end    → Session terminated, cleanup opportunity.
+//
+// Extension Points
+// ----------------
+// • Persist transcripts: Save full conversation in session.end.
+// • Trigger summarization: Call LLM to summarize after session.end.
+// • Add analytics: Log latency, message count, session duration.
+// • Add moderation: Filter user input before LLM, filter output before TTS.
+//
 export const dynamic = 'force-dynamic';
 
 import { createOpenAI } from '@ai-sdk/openai';

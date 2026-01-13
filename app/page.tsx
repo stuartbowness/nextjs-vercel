@@ -1,3 +1,25 @@
+// app/page.tsx
+//
+// Purpose
+// -------
+// Main voice UI component. Provides the user interface for connecting to
+// a Layercode voice agent, controlling the microphone, and viewing transcripts.
+//
+// Responsibilities
+// ----------------
+// • Render connect/disconnect and mute/unmute controls.
+// • Display speaking indicators for user and agent.
+// • Show real-time streaming transcripts with partial updates.
+// • Handle microphone device selection via MicrophoneSelect component.
+// • Manage voice session state and error display.
+//
+// Notes
+// -----
+// • Uses 'use client' directive for browser-only features (microphone, WebSocket).
+// • Dynamically imports @layercode/react-sdk to avoid SSR issues.
+// • Transcript chunks are aggregated by turn_id for proper ordering.
+//
+
 'use client';
 
 import { Activity, Mic, MicOff, PhoneCall, PhoneOff, User } from 'lucide-react';

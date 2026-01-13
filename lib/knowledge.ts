@@ -1,47 +1,41 @@
-/**
- * Static Knowledge Base Module
- *
- * This module provides a static knowledge base used by the voice AI agent to
- * generate grounded, contextual responses. The content is hardcoded intentionally
- * to reduce complexity and make the integration pattern easy to understand.
- *
- * WHY STATIC KNOWLEDGE?
- * ---------------------
- * For a reference implementation, static content ensures:
- * - Zero external dependencies
- * - Instant setup (no database, no API keys beyond Layercode)
- * - Clear demonstration of where knowledge enters the AI system
- * - Easy modification for developers learning the pattern
- *
- * REPLACING THIS WITH YOUR OWN DATA
- * ----------------------------------
- * In a production application, you would replace getKnowledgeBase() with one of:
- *
- * 1. CMS FETCH
- *    - Fetch content from a headless CMS (Contentful, Sanity, Strapi, etc.)
- *    - Example: const content = await sanityClient.fetch('*[_type == "faq"]')
- *    - Benefits: Non-technical team members can update content
- *
- * 2. DATABASE QUERY
- *    - Query from Vercel Postgres, PlanetScale, Supabase, etc.
- *    - Example: const docs = await db.select().from(knowledge).where(...)
- *    - Benefits: Structured data, easy updates, transactional consistency
- *
- * 3. VECTOR SEARCH / RAG (Retrieval-Augmented Generation)
- *    - Use embeddings to find semantically relevant content
- *    - Services: Pinecone, Weaviate, Vercel's AI SDK with embeddings
- *    - Flow: embed user query -> search vector DB -> return top-k results
- *    - Benefits: Handles large knowledge bases, finds contextually relevant info
- *
- * 4. DOCUMENTATION SITE / STATIC FILES
- *    - Parse markdown files from /docs directory
- *    - Fetch from a documentation API (ReadMe, GitBook, etc.)
- *    - Example: const docs = await fetch('https://docs.example.com/api/search')
- *    - Benefits: Keep knowledge in sync with public documentation
- *
- * The function signature remains the same regardless of the data source.
- * This makes it easy to swap implementations without changing the AI logic.
- */
+// lib/knowledge.ts
+//
+// Purpose
+// -------
+// Static knowledge base for the voice AI agent. Provides grounded content
+// that the AI references when generating responses.
+//
+// Responsibilities
+// ----------------
+// • Export getKnowledgeBase() with FAQs, product info, and support details.
+// • Export formatKnowledgeForPrompt() to format content for AI prompts.
+// • Demonstrate where developers would connect their own data sources.
+//
+// Why Static?
+// -----------
+// This is intentionally static for the reference implementation:
+// • Zero external dependencies (no database, no vector DB).
+// • Instant setup and easy to understand.
+// • Clear demonstration of where knowledge enters the AI system.
+//
+// Replacing With Your Own Data
+// ----------------------------
+// Swap getKnowledgeBase() implementation with:
+//
+// 1. CMS Fetch (Contentful, Sanity, Strapi)
+//    const content = await sanityClient.fetch('*[_type == "faq"]')
+//
+// 2. Database Query (Vercel Postgres, Supabase)
+//    const docs = await db.select().from(knowledge).where(...)
+//
+// 3. Vector Search / RAG (Pinecone, Weaviate)
+//    embed user query → search vector DB → return top-k results
+//
+// 4. Documentation API (ReadMe, GitBook)
+//    const docs = await fetch('https://docs.example.com/api/search')
+//
+// The function signature stays the same regardless of data source.
+//
 
 export interface KnowledgeBase {
   companyName: string;
