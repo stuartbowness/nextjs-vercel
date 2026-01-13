@@ -1,6 +1,6 @@
-# Layercode Voice AI Starter
+# Add Voice AI to Your Next.js App with Layercode
 
-Add voice AI to your Next.js app in minutes.
+Get started in minutes.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/layercodedev/nextjs-vercel)
 
