@@ -165,4 +165,4 @@ Modify TTL or swap storage backends in [`app/api/agent/route.ts`](./app/api/agen
 
 ## License
 
-MIT
+[MIT](https://opensource.org/license/mit)
