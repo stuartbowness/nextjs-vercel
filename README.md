@@ -1,6 +1,8 @@
 # Voice AI Infrastructure for Next.js
 
-Edge deployed infrastructure, voice activity detection, websocket handling, and full back-end control. One-click Vercel deploy.
+Layercode is production-ready voice AI infrastructure for developers. It handles the complex parts of real-time voice—WebSocket management, voice activity detection, global edge deployment, and session recording—so you can focus on building your agent's logic.
+
+This integration lets you deploy voice-enabled Next.js apps to Vercel with one click. Your API keys stay server-side, webhooks connect automatically, and voice sessions run on Layercode's edge network across 330+ global locations for low-latency conversations anywhere.
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/layercodedev/nextjs-vercel)
 
