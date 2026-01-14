@@ -28,10 +28,16 @@ import { useLayercodeAgent, MicrophoneSelect } from '@layercode/react-sdk';
 type Role = 'user' | 'assistant' | 'system';
 
 const LINK_MAP: Record<string, string> = {
-  'Layercode website': 'https://layercode.com',
+  'Layercode website': 'https://dash.layercode.com/sign-up',
+  'sign up': 'https://dash.layercode.com/sign-up',
+  'Sign up': 'https://dash.layercode.com/sign-up',
+  'documentation': 'https://docs.layercode.com',
+  'the documentation': 'https://docs.layercode.com',
   'Layercode documentation': 'https://docs.layercode.com',
   'the Layercode documentation': 'https://docs.layercode.com',
   'our documentation': 'https://docs.layercode.com',
+  'docs': 'https://docs.layercode.com',
+  'the docs': 'https://docs.layercode.com',
   'support team': 'mailto:support@layercode.com',
   'our support team': 'mailto:support@layercode.com',
   'status page': 'https://statuspage.incident.io/layercode',
