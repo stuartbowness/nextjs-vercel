@@ -6,7 +6,7 @@ This integration lets you deploy voice-enabled Next.js apps to Vercel with one c
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/layercodedev/nextjs-vercel)
 
-<!-- TODO: Add screenshot or demo GIF here -->
+**[Try the live demo →](https://layercode-vercel-test.vercel.app)**
 
 ## Features
 
