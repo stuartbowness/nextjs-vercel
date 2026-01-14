@@ -44,11 +44,36 @@ const LINK_MAP: Record<string, string> = {
   'our status page': 'https://statuspage.incident.io/layercode',
 };
 
+// Convert TTS-spoken URLs back to clickable links (e.g., "layercode dot com" → "layercode.com")
+const SPOKEN_URL_MAP: Record<string, { display: string; url: string }> = {
+  'layercode dot com': { display: 'layercode.com', url: 'https://layercode.com' },
+  'docs dot layercode dot com': { display: 'docs.layercode.com', url: 'https://docs.layercode.com' },
+};
+
 const linkifyText = (text: string): React.ReactNode => {
-  const pattern = new RegExp(`(${Object.keys(LINK_MAP).join('|')})`, 'gi');
-  const parts = text.split(pattern);
+  // First, replace spoken URLs with proper format
+  let processed = text;
+  for (const [spoken, { display, url }] of Object.entries(SPOKEN_URL_MAP)) {
+    const regex = new RegExp(spoken, 'gi');
+    processed = processed.replace(regex, `__LINK__${display}__${url}__ENDLINK__`);
+  }
+
+  // Then handle phrase mappings
+  const pattern = new RegExp(`(__LINK__.+?__ENDLINK__|${Object.keys(LINK_MAP).join('|')})`, 'gi');
+  const parts = processed.split(pattern);
 
   return parts.map((part, i) => {
+    // Handle spoken URL replacements
+    const linkMatch = part.match(/__LINK__(.+?)__(.+?)__ENDLINK__/);
+    if (linkMatch) {
+      return (
+        <a key={i} href={linkMatch[2]} target="_blank" rel="noopener noreferrer" className="underline">
+          {linkMatch[1]}
+        </a>
+      );
+    }
+
+    // Handle phrase mappings
     const url = LINK_MAP[part] || LINK_MAP[part.toLowerCase()];
     if (url) {
       return (
