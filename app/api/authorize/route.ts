@@ -35,15 +35,11 @@ export const POST = async (request: Request) => {
   const endpoint = "https://api.layercode.com/v1/agents/web/authorize_session";
   const apiKey = process.env.LAYERCODE_API_KEY;
   if (!apiKey) {
-    return NextResponse.json({
-      error: "Authorization failed. Check that your environment variables are set in Vercel. (LAYERCODE_API_KEY is not set)"
-    }, { status: 500 });
+    return NextResponse.json({ error: "LAYERCODE_API_KEY not set" }, { status: 500 });
   }
   const requestBody = await request.json();
   if (!requestBody || !requestBody.agent_id) {
-    return NextResponse.json({
-      error: "Authorization failed. Check that NEXT_PUBLIC_LAYERCODE_AGENT_ID is set in your environment variables. (Missing agent_id)"
-    }, { status: 500 });
+    return NextResponse.json({ error: "Missing agent_id" }, { status: 500 });
   }
   try {
     const response = await fetch(endpoint, {
@@ -71,8 +67,6 @@ export const POST = async (request: Request) => {
       );
     }
 
-    return NextResponse.json({
-      error: `Authorization failed. Check that your environment variables are set in Vercel and your webhook URL is configured in the Layercode dashboard. (${errorMessage})`
-    }, { status: 500 });
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 };
