@@ -174,7 +174,7 @@ export const POST = async (request: Request) => {
         // EXTENSION POINT: Log user message for analytics or moderation review
 
         const { textStream } = streamText({
-          model: getOpenAIClient()('gpt-4.1-mini-2025-04-14'),
+          model: getOpenAIClient()('gpt-4.1-mini'),
           system: SYSTEM_PROMPT,
           messages: convertToModelMessages(conversationForModel),
           onFinish: async ({ response }) => {
