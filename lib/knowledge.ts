@@ -77,7 +77,7 @@ and integrates with popular AI models for natural conversations.`,
       },
       {
         question: "How do I get started with Layercode?",
-        answer: `Getting started is simple: 1) Sign up at layercode.com and get your API key,
+        answer: `Getting started is simple: 1) Sign up on the Layercode website and get your API key,
 2) Install the Layercode SDK in your project, 3) Add the voice component to your UI,
 4) Configure your webhook endpoint to receive voice events. The entire setup takes about
 15 minutes for a basic integration.`,
@@ -124,11 +124,10 @@ model's response time. We use edge infrastructure to minimize network latency.`,
 - Analytics: Monitor usage, latency, and conversation quality`,
 
     supportInfo: `For support:
-- Documentation: docs.layercode.com
-- Email: support@layercode.com
-- Discord community: discord.gg/layercode
-- Enterprise support: Available on Business and Enterprise plans
-- Status page: status.layercode.com`,
+- Check out the Layercode documentation
+- Email our support team
+- Enterprise support is available on Business and Enterprise plans
+- Check our status page for service updates`,
   };
 }
 

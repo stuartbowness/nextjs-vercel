@@ -27,6 +27,34 @@ import { useLayercodeAgent, MicrophoneSelect } from '@layercode/react-sdk';
 
 type Role = 'user' | 'assistant' | 'system';
 
+const LINK_MAP: Record<string, string> = {
+  'Layercode website': 'https://layercode.com',
+  'Layercode documentation': 'https://docs.layercode.com',
+  'the Layercode documentation': 'https://docs.layercode.com',
+  'our documentation': 'https://docs.layercode.com',
+  'support team': 'mailto:support@layercode.com',
+  'our support team': 'mailto:support@layercode.com',
+  'status page': 'https://statuspage.incident.io/layercode',
+  'our status page': 'https://statuspage.incident.io/layercode',
+};
+
+const linkifyText = (text: string): React.ReactNode => {
+  const pattern = new RegExp(`(${Object.keys(LINK_MAP).join('|')})`, 'gi');
+  const parts = text.split(pattern);
+
+  return parts.map((part, i) => {
+    const url = LINK_MAP[part] || LINK_MAP[part.toLowerCase()];
+    if (url) {
+      return (
+        <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="underline">
+          {part}
+        </a>
+      );
+    }
+    return part;
+  });
+};
+
 type TranscriptChunk = {
   counter: number;
   text: string;
@@ -69,7 +97,9 @@ const SpeakingIndicator = ({ label, isActive, icon: Icon }: { label: string; isA
 const MessageBubble = ({ message }: { message: Message }) => {
   const content = message.role === 'user' && message.chunks?.length
     ? message.chunks.map((chunk) => <span key={chunk.counter}>{chunk.text}</span>)
-    : message.text;
+    : message.role === 'assistant'
+      ? linkifyText(message.text)
+      : message.text;
 
   if (message.role === 'system') {
     return (
