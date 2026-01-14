@@ -35,11 +35,15 @@ export const POST = async (request: Request) => {
   const endpoint = "https://api.layercode.com/v1/agents/web/authorize_session";
   const apiKey = process.env.LAYERCODE_API_KEY;
   if (!apiKey) {
-    throw new Error("LAYERCODE_API_KEY is not set.");
+    return NextResponse.json({
+      error: "Authorization failed. Check that your environment variables are set in Vercel. (LAYERCODE_API_KEY is not set)"
+    }, { status: 500 });
   }
   const requestBody = await request.json();
   if (!requestBody || !requestBody.agent_id) {
-    throw new Error("Missing agent_id in request body.");
+    return NextResponse.json({
+      error: "Authorization failed. Check that NEXT_PUBLIC_LAYERCODE_AGENT_ID is set in your environment variables. (Missing agent_id)"
+    }, { status: 500 });
   }
   try {
     const response = await fetch(endpoint, {
