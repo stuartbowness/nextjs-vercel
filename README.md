@@ -142,7 +142,7 @@ export function getKnowledgeBase(): KnowledgeBase {
 
 ### Extend the AI logic
 
-Edit [`app/api/agent/route.ts`](./app/api/agent/route.ts) to add tool calling, switch models, or customize the system prompt. AI logic lives directly in the webhook handler.
+This project uses the [Vercel AI SDK](https://sdk.vercel.ai) for model integration—see their docs for [tool calling](https://sdk.vercel.ai/docs/ai-sdk-core/tools-and-tool-calling), [streaming](https://sdk.vercel.ai/docs/ai-sdk-core/streaming), and [provider support](https://sdk.vercel.ai/docs/ai-sdk-core/provider-management). Edit [`app/api/agent/route.ts`](./app/api/agent/route.ts) to add tools, switch models, or customize the system prompt.
 
 ### Add authentication
 
