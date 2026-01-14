@@ -103,9 +103,9 @@ handles the voice layer. This gives you full flexibility over the conversation l
       },
       {
         question: 'Is Layercode secure?',
-        answer: `Security is a top priority. All audio is encrypted in transit, we don't
-store conversation audio by default, and you can configure data retention policies.
-We're SOC 2 compliant and offer enterprise security features for larger deployments.`
+        answer: `Layercode is built for production workloads with enterprise security
+requirements. Your data is encrypted in transit and at rest. Session recordings are
+stored securely in SOC 2 compliant infrastructure.`
       },
       {
         question: "What's the latency like?",
