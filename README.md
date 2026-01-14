@@ -42,11 +42,16 @@ The agent's knowledge comes from [`lib/knowledge.ts`](./lib/knowledge.ts) — ed
 ### Prerequisites
 
 - Node.js 18+
-- [Layercode account](https://layercode.com) — for API key and agent setup
 - [OpenAI API key](https://platform.openai.com) — for text generation
 - (Optional) [Vercel KV](https://vercel.com/storage/kv) — for persistent message history
 
-### 1. Clone and install
+### 1. Create your Layercode agent
+
+1. [Sign up at Layercode](https://dash.layercode.com/sign-up) (free tier available)
+2. Go to the [Dashboard](https://dash.layercode.com) and create a new agent
+3. Note your **Agent ID**, **API Key**, and **Webhook Secret** — you'll need these in step 3
+
+### 2. Clone and install
 
 ```
 git clone https://github.com/layercodedev/nextjs-vercel
@@ -54,7 +59,7 @@ cd nextjs-vercel
 npm install
 ```
 
-### 2. Configure environment
+### 3. Configure environment
 
 ```bash
 cp .env.example .env.local
@@ -71,7 +76,7 @@ Fill in your keys:
 | `KV_REST_API_URL` | No | Vercel KV URL (optional, for persistence) |
 | `KV_REST_API_TOKEN` | No | Vercel KV token (optional) |
 
-### 3. Run locally with the Layercode CLI
+### 4. Run locally with the Layercode CLI
 
 The Layercode CLI creates a tunnel and auto-configures your webhook URL:
 
