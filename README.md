@@ -4,7 +4,7 @@ Layercode is production-ready voice AI infrastructure for developers. It handles
 
 This integration lets you deploy voice-enabled Next.js apps to Vercel with one click. Your API keys stay server-side, webhooks connect automatically, and voice sessions run on Layercode's edge network across 330+ global locations for low-latency conversations anywhere.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/layercodedev/nextjs-vercel)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/stuartbowness/nextjs-vercel)
 
 **[Try the live demo →](https://vercel-demo.layercode.com)**
 
